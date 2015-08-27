@@ -1,0 +1,346 @@
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Definição de mapeamento de fc para filas, pesos e prioridades das filas:
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+configure qos-servicerouter system egress port-qos-policy 2 queue-mode eight create
+description "8-queue fcmap policy"
+queue 7 weight 0 priority 8
+queue 6 weight 0 priority 6
+queue 5 weight 0 priority 4
+queue 4 weight 0 priority 2
+queue 3 weight 0 priority 7
+queue 2 weight 0 priority 5
+queue 1 weight 0 priority 3			<---- Mudar priority e weigh !!!
+queue 0 weight 0 priority 1			<---- Mudar priority e weigh !!!
+fc be unicast-queue 0 nonunicast-queue 0	<-- pbit 0
+fc l2 unicast-queue 4 nonunicast-queue 0	<-- pbit 1
+fc af unicast-queue 1 nonunicast-queue 1	<-- pbit 2
+fc l1 unicast-queue 5 nonunicast-queue 1	<-- pbit 3
+fc h2 unicast-queue 2 nonunicast-queue 2	<-- pbit 4
+fc ef unicast-queue 6 nonunicast-queue 2	<-- pbit 5
+fc h1 unicast-queue 3 nonunicast-queue 3	<-- pbit 6
+fc nc unicast-queue 7 nonunicast-queue 3	<-- pbit 7
+exit
+port-qos 2
+
+
++++++++++++++++++++++++++++++
+Configuração Backplane e NTIO:
++++++++++++++++++++++++++++++
+
+configure system max-lt-link-speed link-speed ten-gb
+configure equipment applique ntio-1 no planned-type
+configure equipment applique ntio-1 planned-type ncnc-f applique-profile single_xfp_4_sfp
+admin save
+admin software-mngt ihub database save-protected
+admin equipment reboot-isam without-self-test
+
+
++++++++++++++++++++++++++++++++++
+Identificação do Chassis e Remoto:
++++++++++++++++++++++++++++++++++
+
+configure equipment shelf 1/1 planned-type nfxs-b description <DESCRICAO>
+configure equipment shelf 1/2 class ext-ethernet planned-type nfxr-a description <DESCRICAO-REMOTO>
+configure system id <ID> name <NAME> port-num-in-proto legacy-num
+
+
+
+++++
+SNTP:
+++++
+
+configure system sntp server-ip-addr <IP-SNTP> enable timezone-offset -120
+configure system sntp server-table ip-address <IP-SNTP> priority 1
+
+++++
+SNMP:
+++++
+
+configure system security snmp community <SNMP-COMMUNITY-IHUB> host-address <IP-SNMP>/<MASK> context ihub
+configure system security snmp community <SNMP-COMMUNITY-IACM> host-address <IP-SNMP>/<MASK>
+
+
++++++++
+Line-ID:
++++++++
+
+configure system loop-id-syntax
+efm-based-dsl "Access_Node_ID ShSlt/ShPrt"
+@efm-based-pon "Access_Node_ID eth Slot/Port/ONU/OnuSlt/UNI"		<---- Mudar 
+
+
++++++++++++++++++++++++
+Configuração das placas:
++++++++++++++++++++++++
+
+configure equipment slot lt:1/1/4 planned-type nvlt-p unlock
+configure equipment slot lt:1/1/6 planned-type nvlt-p unlock
+configure equipment slot lt:1/1/8 planned-type nvlt-p unlock
+configure equipment slot lt:1/1/10 planned-type nvlt-p unlock
+
+configure equipment slot lt:<RACK>/<SHELF>/<SLOT-ETH> planned-type nelt-b unlock
+configure equipment slot lt:1/1/<SLOT-GPON-8> planned-type nglt-c unlock
+configure equipment slot lt:1/1/<SLOT-GPON-16> planned-type fglt-a unlock
+
+
++++++++++++++++++++++++++++++++++++++++
+Proteção Active / Active nas placas NTs:
++++++++++++++++++++++++++++++++++++++++
+???
+configure equipment protection-group 1 admin-status lock
+configure equipment slot nt-b planned-type nant-e unlock				<---- Ou FANT-F
+configure equipment protection-element nt-a redcy-ctrl-status normal
+configure equipment protection-element nt-b redcy-ctrl-status normal
+configure equipment protection-group 1 admin-status unlock
+
+
+Retirado do manual:
+------------------
+Note 1 — The default administrative status of the protection group is “locked” (that is, NT redundancy is disabled).
+
+If NT redundancy is required, then NT redundancy must be specifically enabled. Use the following command:
+
+configure equipment protection-group 1 admin-status
+unlock
+
+Note 2 — The parameter eps-quenchfactor has no significance for systems with FD 100/320Gbps NT or FX NT.
+
+configure equipment protection-group 1 admin-status unlock
+eps-quenchfactor 60000
+configure equipment protection-element nt-a
+redcy-ctrl-status normal
+configure equipment protection-group 1 admin-status lock
+configure equipment protection-group 1 admin-status unlock
+configure equipment protection-element nt-b
+redcy-ctrl-status normal
+
+
+Retirei de um documento:
+-----------------------
+
+====================================
+Activar Redundancia de controladora:
+====================================
+
+configure equipment protection-group 1 admin-status unlock
+configure equipment protection-element nt-a redcy-ctrl-status normal
+configure equipment protection-group 1 admin-status lock
+configure equipment protection-group 1 admin-status unlock
+configure equipment protection-element nt-b redcy-ctrl-status normal
+
+
+
+
++++
+PON:
++++
+
+configure pon interface 1/1/<SLOT-GPON-8>/[1...8] fec-dn enable admin-state up
+configure pon interface 1/1/<SLOT-GPON-16>/[1...16] fec-dn enable admin-state up
+configure qos interface pon:1/1/<SLOT-GPON-8>/[1...8] ds-num-queue 8
+configure qos interface pon:1/1/<SLOT-GPON-16>/[1...16] ds-num-queue 8
+
+
+++++++
+Portas:
+++++++
+
+configure port nt-a:xfp:1
+configure port nt-a:xfp:1 ethernet
+category regular
+speed 10000 
+no autonegotiate
+exit
+no shutdown
+
+configure port nt-b:xfp:1
+configure port nt-b:xfp:1 ethernet
+category regular
+speed 10000 
+no autonegotiate
+exit
+no shutdown
+
+
++++++++++++
+TC to Queue:
++++++++++++
+
+configure qos tc-map-dot1p 0 tc 0 dpcolor green policer-color green
+configure qos tc-map-dot1p 1 tc 1 dpcolor green policer-color green
+configure qos tc-map-dot1p 2 tc 2 dpcolor green policer-color green
+configure qos tc-map-dot1p 3 tc 3 dpcolor green policer-color green
+configure qos tc-map-dot1p 4 tc 4 dpcolor green policer-color green
+configure qos tc-map-dot1p 5 tc 5 dpcolor green policer-color green
+configure qos tc-map-dot1p 6 tc 6 dpcolor green policer-color green
+configure qos tc-map-dot1p 7 tc 7 dpcolor green policer-color green
+
+
+++++++++
+Gerência:
+++++++++
+
+configure service ies 1 customer <customer>
+interface "Gerencia"  create
+address <IP-ADDRESS>/<MASK>
+sap nt:vp:1:<V-VPLS> create
+exit
+exit
+no shutdown
+
+configure router static-route 0.0.0.0/0 next-hop <IP-DEFAULT GW>
+
+
+++++++++++++
+Software ONT:
+++++++++++++
+
+tftp -i <IP ISAM> put <SW-ONT> /pub/OntSw/Download/<SW-ONT>
+
+ex.: tftp -i 10.200.23.127 put FE55393AOCD10 /pub/OntSw/Download/FE55393AOCD10
+
+
+I-M-P-O-R-T-A-N-T-E:	Ler o arquivo excel contido no arquivo "ONT_05_02_51.tar" abas compatibility e software. Este tar foi baixado do 7368 ONT.
+-------------------
+
+
+***** => VER TAMBÉM CLI COMMAND GUIDE ITEM 6.2 ONT Interface Configuration Command
+
++++++++++
+Criar ONT:
++++++++++
+
+DLP 3261
+--------
+
+1) Create an association between an ONT HW version/variant and an ONT SW
+version/variant (download and planned) with the following command:
+
+configure equipment ont sw-ctrl (sw-ctrl-id) hw-version <Gpon::SwVer>
+(no) ont-variant <Gpon::PlndVar>		<----- DO   ou SIP
+(no) plnd-sw-version <Gpon::SwVer>
+(no) plnd-sw-ver-conf <Gpon::SwVer>
+(no) sw-dwload-ver <Gpon::SwVer>
+
+
+2) Provision the ONT on the GPON interface by assigning values to all of its
+parameters with the following command:
+
+configure equipment ont interface 1/1/<slot>/<PON>/<ont-idx>
+battery-bkup disable
+(no) desc1 <Gpon::Desc>					<---- ????
+(no) desc2 <Gpon::Desc>					<---- ????
+(no) provversion <Gpon::ProvVersion>			<---- "*"   , não colocar porque é default
+(no) sernum <Gpon::SerNum>
+subslocid <Gpon::SubsLocId>
+sw-ver-pland auto
+fec-up enable
+sw-dnload-version <Gpon::SwVer>				<---- auto  ???
+plnd-var <Gpon::PlndVar>				<---- DO ou SIP
+enable-aes enable
+(no) voip-allowed <Gpon::VoipAllowed>			<---- ????
+(no) iphc-allowed <Gpon::IphcAllowed>			<---- ????
+(no) log-auth-id <Gpon::LogAuthId>			<---- ????
+(no) log-auth-pwd <Gpon::LogAuthPwd>			<---- ????
+(no) sn-bundle-ctrl					<---- ????
+[no] pland-cfgfile1					<---- ????
+(no) pland-cfgfile2					<---- ????
+[no] dnload-cfgfile1					<---- ????
+[no] dnload-cfgfile2					<---- ????
+
+configure equipment ont interface 1/1/<slot>/<PON>/<ont-idx> admin-state up
+
+
+
+3) Configure the queue-sharing of the ONT with the following command:
+
+configure qos interface (index)
+(no) scheduler-node <Qos::SchedulerNodeProfName>
+(no) cac-profile <Qos::QosCacProfileName>
+(no) ds-queue-sharing
+(no) us-queue-sharing
+(no) ds-num-queue <Qos::NumberofQueues>
+(no) us-num-queue <Qos::NumberofQueues>
+(no) queue-stats-on
+(no) gem-sharing
+
+
+4) Attach the scheduler node profile to the ONT with next command:
+configure qos interface (index)
+(no) scheduler-node <Qos::SchedulerNodeProfName>
+(no) cac-profile <Qos::QosCacProfileName>
+(no) ds-queue-sharing
+(no) us-queue-sharing
+(no) ds-num-queue <Qos::NumberofQueues>
+(no) us-num-queue <Qos::NumberofQueues>
+(no) queue-stats-on
+(no) gem-sharing
+
+
+5) Plan (one or more, in function of the type of ONT) ONT cards on the ONT
+
+configure equipment ont slot (ont-slot-idx)
+planned-card-type <Gpon::PlndCardType>
+plndnumdataports <Gpon::PlndNumDataPorts>
+plndnumvoiceports <Gpon::PlndNumVoicePorts>
+(no) port-type <Gpon::PortType>
+(no) transp-mode-rem <Gpon::TranspMode>
+(no) admin-state <Gpon::AdminStatus>
+
+
+DLP 3305
+--------
+
+The value of the ONT parameter SWPLNDVER determines the software upgrade method for a specific ONT.
+
+	• Planned (sw-ver-pland=planned software version)
+	• Automatic (sw-ver-pland=AUTO)	<========
+	• Manual (sw-ver-pland=MANUAL)
+
+
+i) Verify that the ONT software file resides on the NT file system:
+
+show equipment eont sw-version [ (sw-ver-id) ]
+
+
+ii) If the ONT sofware file resides on the NT file system, create the control table entry:
+
+configure equipment eont (sw-ctrl (sw-ctrl-id)
+hw-version <Epon::HwVer>
+[ (no) ont-variant <Epon::PlndVar> ]
+plnd-sw-version <Epon::SwVer>
+[ (no) upgrade-mode <Epon::UpMode> ] )
+
+
+iii) Verify the configuration:
+
+info [detail]
+
+
+
+iv) Save the configuration:
+
+admin save
+
+
+Exemplo:
+-------
+
+configure equipment eont swctrl 10 hw-version 3FE50683ADAB01 ont-variant SIP plnd-sw-version 3FE50853AFQA14 upgrade-mode none
+
+admin save
+
+show equipment eont sw-version FE50854AFQA20
+
+configure equipment eont sw-ctrl 3 plnd-sw-version 3FE50854AFQA20 upgrade-mode CTC
+
+admin save
+
+show equipment ont sw-ctrl 1
+
+configure equipment eont no sw-ctrl 1
+
+
+show equipment ont sw-download 1/1/6/2/3 detail
