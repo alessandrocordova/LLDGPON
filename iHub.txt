@@ -192,7 +192,11 @@ Software ONT:
 
 tftp -i <IP ISAM> put <SW-ONT> /pub/OntSw/Download/<SW-ONT>
 
-ex.: tftp -i 10.200.23.127 put FE55393AOCD10 /pub/OntSw/Download/FE55393AOCD10
+ex.: tftp -i <IP-ISAM> put <SW-ONT> /pub/OntSw/Download/<SW-ONT>
+Obs.: Sem o 3 na frente.
+
+| R05.02.00  | 3FE56525AA   | G-240W-A   | 3FE55935ADEC13 | GSFU   | SIP      |
+| R05.02.00  | 3FE56525AA   | G-240W-A   | 3FE56557AFCA23 | GSFU   | SIP      |
 
 
 I-M-P-O-R-T-A-N-T-E:	Ler o arquivo excel contido no arquivo "ONT_05_02_51.tar" abas compatibility e software. Este tar foi baixado do 7368 ONT.
