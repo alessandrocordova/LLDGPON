@@ -1,1 +1,10 @@
+configure equipment ont interface 1/1/<slot_nglt-a>/<PON-ID>/<ONT-ID> sw-ver-pland 3FE53216AOCI45 sernum ALCL:numero_de_serie> subslocid <SLID> fec-up enable enable-aes enable
+configure equipment ont interface 1/1/<slot_nglt-a>/<PON-ID>/<ONT-ID> admin-state up
+configure equipment ont slot <rack>/<shelf>/<slot_nglt-a>/<PON-ID>/<ONT-ID>/1 planned-card-type 10_100base plndnumdataports 1 plndnumvoiceports 0 admin-state up
+configure interface port uni:<rack>/<shelf>/<slot_nglt-a>/<PON-ID>/<ONT-ID>/<ONT-BOARD>/<PORT> link-updown-trap admin-up
+configure ethernet ont 1/1/<slot_nglt-a>/<PON-ID>/<ONT-ID>/1/<PORT> auto-detect 10_100_1000baset-auto admin-state up
+configure qos interface ont:1/1/<slot_nglt-a>/<PON-ID>/<ONT-ID> us-num-queue 8
+
+
+
 
