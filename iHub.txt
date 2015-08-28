@@ -240,3 +240,27 @@ I-M-P-O-R-T-A-N-T-E:	Ler o arquivo excel contido no arquivo "ONT_05_02_51.tar" a
 
 ***** => VER TAMBÉM CLI COMMAND GUIDE ITEM 6.2 ONT Interface Configuration Command
 
+Tabela ONT-HW x ONT-SW:
+======================
+configure equipment ont sw-ctrl <SW-CTRL-ID> ?
+hw-version            ! ONT hardware version
+
+[no] ont-variant      : planned variant of the ONT hardware version.Use DO for
+                        Data-only ONTs,SIP for SIP ONTs,H.248 for MEGACO ONTs
+                        default = ""
+[no] plnd-sw-version  : planned ONT software version number. If sw-dwload-ver is
+                        set to disabled, plnd-sw-version cannot be set to
+                        delayactivate.
+                        default = UNPLANNED
+[no] plnd-sw-ver-conf : software planned version confirmation
+                        default = UNPLANNED
+[no] sw-dwload-ver    : software download version. If plnd-sw-version is set to
+                        delayactivate, sw-dwload-ver cannot be set to disabled.
+                        default = DISABLED
+                        
+
+
+Exemplo:
+=======
+configure equipment ont sw-ctrl 1 hw-version 3FE53347AU* plnd-sw-version 3FE53216AOCK27 plnd-sw-ver-conf 3FE53216AOCK27 sw-dwload-ver 3FE53216AOCK27
+configure equipment ont sw-ctrl 2 hw-version 3FE56525AAAA01 plnd-sw-version 3FE56557AFBB29 plnd-sw-ver-conf 3FE56557AFBB29 sw-dwload-ver 3FE56557AFBB29
