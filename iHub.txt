@@ -197,7 +197,7 @@ Obs.: <SW-ONT> Sem o 3 na frente.
 
 ONT G-240W-A - SW ONT 5.2.51:
 ============================
-FE56557AFCB38
+FE56557AFCB38 (indicado na tabela excel)
 
 | R05.02.51  | 3FE56525AA   | G-240W-A   | 3FE55935ADEC37 | GSFU   | SIP      |
 | R05.02.51  | 3FE56525AA   | G-240W-A   | 3FE56557AFCB38 | GSFU   | SIP      |
@@ -206,7 +206,7 @@ FE56557AFCB38
 
 ONT G-240W-B - SW ONT 5.2.51:
 ============================
-FE56557AFCB42
+FE56557AFCB42 (indicado na tabela excel)
 
 | R05.02.51  | 3FE56756AA   | G-240W-B   | 3FE56557AFCB38 | GSFU   | SIP      |
 | R05.02.51  | 3FE56756AA   | G-240W-B   | 3FE56557AFCB42 | GSFU   | SIP      |
@@ -220,7 +220,7 @@ FE56557AFCB42
 
 ONT G-010G-A - SW ONT 5.2.51:
 ============================
-FE56065AFCB38   <------ DO
+FE56065AFCB38  (indicado na tabela excel)
 
 | R05.02.51  | 3FE56389AA   | G-010G-A   | 3FE56065ADEC37 | GSFU   | DO       |
 | R05.02.51  | 3FE56389AA   | G-010G-A   | 3FE56065AFCB38 | GSFU   | DO       |
