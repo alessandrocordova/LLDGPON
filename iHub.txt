@@ -192,7 +192,6 @@ Software ONT:
 
 tftp -i <IP ISAM> put <SW-ONT> /pub/OntSw/Download/<SW-ONT>
 
-ex.: tftp -i <IP-ISAM> put <SW-ONT> /pub/OntSw/Download/<SW-ONT>
 Obs.: <SW-ONT> Sem o 3 na frente.
 
 ONT G-240W-A - SW ONT 5.2.51:
