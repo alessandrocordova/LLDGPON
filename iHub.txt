@@ -3,26 +3,19 @@
 Definição de mapeamento de fc para filas, pesos e prioridades das filas:
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-configure qos-servicerouter system egress port-qos-policy 2 queue-mode eight create
-description "8-queue fcmap policy"
+configure qos-servicerouter system egress port-qos-policy 3 queue-mode eight create
+description "TIM 8-queue fcmap policy"
 queue 7 weight 0 priority 8
 queue 6 weight 0 priority 6
 queue 5 weight 0 priority 4
-queue 4 weight 0 priority 2			<---- Mudar priority e weigh !!!
+queue 4 weight 70 priority 1
 queue 3 weight 0 priority 7
 queue 2 weight 0 priority 5
 queue 1 weight 0 priority 3
-queue 0 weight 0 priority 1			<---- Mudar priority e weigh !!!
-fc be unicast-queue 0 nonunicast-queue 0	<-- pbit 0
-fc l2 unicast-queue 4 nonunicast-queue 0	<-- pbit 1
-fc af unicast-queue 1 nonunicast-queue 1	<-- pbit 2
-fc l1 unicast-queue 5 nonunicast-queue 1	<-- pbit 3
-fc h2 unicast-queue 2 nonunicast-queue 2	<-- pbit 4
-fc ef unicast-queue 6 nonunicast-queue 2	<-- pbit 5
-fc h1 unicast-queue 3 nonunicast-queue 3	<-- pbit 6
-fc nc unicast-queue 7 nonunicast-queue 3	<-- pbit 7
-exit
-port-qos 2
+queue 0 weight 30 priority 1
+exit all
+configure qos-servicerouter system egress port-qos 3
+exit all
 
 
 +++++++++++++++++++++++++++++
