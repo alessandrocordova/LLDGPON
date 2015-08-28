@@ -68,7 +68,7 @@ Line-ID:
 
 configure system loop-id-syntax
 efm-based-dsl "Access_Node_ID ShSlt/ShPrt"
-@efm-based-pon "Access_Node_ID Slot/Port/ONU"		<---- Mudar 
+efm-based-pon "Access_Node_ID Slot/Port/ONU"
 
 
 +++++++++++++++++++++++
