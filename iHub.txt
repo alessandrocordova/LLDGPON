@@ -8,10 +8,10 @@ description "8-queue fcmap policy"
 queue 7 weight 0 priority 8
 queue 6 weight 0 priority 6
 queue 5 weight 0 priority 4
-queue 4 weight 0 priority 2
+queue 4 weight 0 priority 2			<---- Mudar priority e weigh !!!
 queue 3 weight 0 priority 7
 queue 2 weight 0 priority 5
-queue 1 weight 0 priority 3			<---- Mudar priority e weigh !!!
+queue 1 weight 0 priority 3
 queue 0 weight 0 priority 1			<---- Mudar priority e weigh !!!
 fc be unicast-queue 0 nonunicast-queue 0	<-- pbit 0
 fc l2 unicast-queue 4 nonunicast-queue 0	<-- pbit 1
