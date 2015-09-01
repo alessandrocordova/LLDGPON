@@ -23,8 +23,6 @@ Configuração Backplane e NTIO:
 +++++++++++++++++++++++++++++
 
 configure system max-lt-link-speed link-speed ten-gb
-configure equipment applique ntio-1 no planned-type
-configure equipment applique ntio-1 planned-type ncnc-f applique-profile single_xfp_4_sfp
 admin save
 admin software-mngt ihub database save-protected
 admin equipment reboot-isam without-self-test
