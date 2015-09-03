@@ -8,19 +8,27 @@ description "TIM 8-queue fcmap policy"
 queue 7 weight 0 priority 8
 queue 6 weight 0 priority 6
 queue 5 weight 0 priority 4
-queue 4 weight 70 priority 1
+queue 4 weight 70 priority 1		
 queue 3 weight 0 priority 7
 queue 2 weight 0 priority 5
 queue 1 weight 0 priority 3
 queue 0 weight 30 priority 1
+fc be unicast-queue 0 nonunicast-queue 0
+fc l2 unicast-queue 4 nonunicast-queue 0
+fc af unicast-queue 1 nonunicast-queue 1
+fc l1 unicast-queue 5 nonunicast-queue 1
+fc h2 unicast-queue 2 nonunicast-queue 2
+fc ef unicast-queue 6 nonunicast-queue 2
+fc h1 unicast-queue 3 nonunicast-queue 3
+fc nc unicast-queue 7 nonunicast-queue 3			
 exit all
 configure qos-servicerouter system egress port-qos 3
 exit all
 
 
-+++++++++++++++++++++++++++++
-Configuração Backplane e NTIO:
-+++++++++++++++++++++++++++++
+++++++++++++++++++++++
+Configuração Backplane:
+++++++++++++++++++++++
 
 configure system max-lt-link-speed link-speed ten-gb
 admin save
@@ -59,7 +67,7 @@ Line-ID:
 
 configure system loop-id-syntax
 efm-based-dsl "Access_Node_ID ShSlt/ShPrt"
-efm-based-pon "Access_Node_ID Slot/Port/ONU"
+efm-based-pon "Access_Node_ID Slot/Port:ONU"
 
 
 +++++++++++++++++++++++
@@ -81,7 +89,7 @@ Proteção Active / Active nas placas NTs:
 +++++++++++++++++++++++++++++++++++++++
 ???
 configure equipment protection-group 1 admin-status lock
-configure equipment slot nt-b planned-type nant-e unlock				<---- Ou FANT-F
+configure equipment slot nt-b planned-type nant-e unlock
 configure equipment protection-element nt-a redcy-ctrl-status normal
 configure equipment protection-element nt-b redcy-ctrl-status normal
 configure equipment protection-group 1 admin-status unlock
@@ -172,8 +180,17 @@ configure qos tc-map-dot1p 7 tc 7 dpcolor green policer-color green
 ++++++++
 Gerência:
 ++++++++
+configure service customer 60 create
+description "V-VPLS Gerencia ISAM"
+exit all
 
-configure service ies 1 customer <customer>
+configure service vpls 60 customer 1 v-vpls vlan 60
+configure service vpls 60 description MNGT-DSLAM
+configure service vpls 60 sap nt-a:xfp:1:60 no shutdown
+configure service vpls 60 sap nt-b:xfp:1:60 no shutdown
+configure service vpls 60 no shutdown
+
+configure service ies 1 customer 60
 interface "Gerencia"  create
 address <IP-ADDRESS>/<MASK>
 sap nt:vp:1:<V-VPLS> create
@@ -192,73 +209,12 @@ tftp -i <IP ISAM> put <SW-ONT> /pub/OntSw/Download/<SW-ONT>
 
 Obs.: <SW-ONT> Sem o 3 na frente.
 
-ONT G-240W-A - SW ONT 5.2.51:
-============================
-FE56557AFCB38 (indicado na tabela excel)
-
-| R05.02.51  | 3FE56525AA   | G-240W-A   | 3FE55935ADEC37 | GSFU   | SIP      |
-| R05.02.51  | 3FE56525AA   | G-240W-A   | 3FE56557AFCB38 | GSFU   | SIP      |
-| R05.02.51  | 3FE56525AA   | G-240W-A   | 3FE56557AFCB42 | GSFU   | SIP      |
-
-
-ONT G-240W-B - SW ONT 5.2.51:
-============================
-FE56557AFCB42 (indicado na tabela excel)
-
-| R05.02.51  | 3FE56756AA   | G-240W-B   | 3FE56557AFCB38 | GSFU   | SIP      |
-| R05.02.51  | 3FE56756AA   | G-240W-B   | 3FE56557AFCB42 | GSFU   | SIP      |
-| R05.02.51  | 3FE56756AB   | G-240W-B   | 3FE56557AFCB38 | GSFU   | SIP      |
-| R05.02.51  | 3FE56756AB   | G-240W-B   | 3FE56557AFCB42 | GSFU   | SIP      |
-| R05.02.51  | 3FE56756AD   | G-240W-B   | 3FE56557AFCB38 | GSFU   | SIP      |
-| R05.02.51  | 3FE56756AD   | G-240W-B   | 3FE56557AFCB42 | GSFU   | SIP      |
-| R05.02.51  | 3FE56756BA   | G-240W-B   | 3FE56557AFCB38 | GSFU   | SIP      |
-| R05.02.51  | 3FE56756BA   | G-240W-B   | 3FE56557AFCB42 | GSFU   | SIP      |
-
-
-ONT G-010G-A - SW ONT 5.2.51:
-============================
-FE56065AFCB38  (indicado na tabela excel)
-
-| R05.02.51  | 3FE56389AA   | G-010G-A   | 3FE56065ADEC37 | GSFU   | DO       |
-| R05.02.51  | 3FE56389AA   | G-010G-A   | 3FE56065AFCB38 | GSFU   | DO       |
-| R05.02.51  | 3FE56389AB   | G-010G-A   | 3FE56065ADEC37 | GSFU   | DO       |
-| R05.02.51  | 3FE56389AB   | G-010G-A   | 3FE56065AFCB38 | GSFU   | DO       |
-| R05.02.51  | 3FE56389AC   | G-010G-A   | 3FE56065ADEC37 | GSFU   | DO       |
-| R05.02.51  | 3FE56389AC   | G-010G-A   | 3FE56065AFCB38 | GSFU   | DO       |
-| R05.02.51  | 3FE56389BA   | G-010G-A   | 3FE56065ADEC37 | GSFU   | DO       |
-| R05.02.51  | 3FE56389BA   | G-010G-A   | 3FE56065AFCB38 | GSFU   | DO       |
-| R05.02.51  | 3FE56389CA   | G-010G-A   | 3FE56065ADEC37 | GSFU   | DO       |
-| R05.02.51  | 3FE56389CA   | G-010G-A   | 3FE56065AFCB38 | GSFU   | DO       |
-
-
-
 
 I-M-P-O-R-T-A-N-T-E:	Ler o arquivo excel contido no arquivo "ONT_05_02_51.tar" abas compatibility e software. Este tar foi baixado do 7368 ONT.
 -------------------
-
-***** => VER TAMBÉM CLI COMMAND GUIDE ITEM 6.2 ONT Interface Configuration Command
-
-Tabela ONT-HW x ONT-SW:
-======================
-configure equipment ont sw-ctrl <SW-CTRL-ID> ?
-hw-version            ! ONT hardware version
-
-[no] ont-variant      : planned variant of the ONT hardware version.Use DO for
-                        Data-only ONTs,SIP for SIP ONTs,H.248 for MEGACO ONTs
-                        default = ""
-[no] plnd-sw-version  : planned ONT software version number. If sw-dwload-ver is
-                        set to disabled, plnd-sw-version cannot be set to
-                        delayactivate.
-                        default = UNPLANNED
-[no] plnd-sw-ver-conf : software planned version confirmation
-                        default = UNPLANNED
-[no] sw-dwload-ver    : software download version. If plnd-sw-version is set to
-                        delayactivate, sw-dwload-ver cannot be set to disabled.
-                        default = DISABLED
-                        
-
-
-Exemplo:
-=======
-configure equipment ont sw-ctrl 1 hw-version 3FE53347AU* plnd-sw-version 3FE53216AOCK27 plnd-sw-ver-conf 3FE53216AOCK27 sw-dwload-ver 3FE53216AOCK27
-configure equipment ont sw-ctrl 2 hw-version 3FE56525AAAA01 plnd-sw-version 3FE56557AFBB29 plnd-sw-ver-conf 3FE56557AFBB29 sw-dwload-ver 3FE56557AFBB29
+Para I-240W-A (ISAM 5.2):
+-------------
+configure equipment ont sw-ctrl 1 hw-version 3FE54945A* ont-variant SIP plnd-sw-version 3FE54869AFCB38 plnd-sw-ver-conf 3FE54869AFCB38 sw-dwload-ver 3FE54869AFCB38
+configure equipment ont sw-ctrl 2 hw-version 3FE54945A* ont-variant DO plnd-sw-version 3FE54869AFCB38 plnd-sw-ver-conf 3FE54869AFCB38 sw-dwload-ver 3FE54869AFCB38
+configure equipment ont sw-ctrl 3 hw-version 3FE54942A* ont-variant DO plnd-sw-version 3FE54869AFCB38 plnd-sw-ver-conf 3FE54869AFCB38 sw-dwload-ver 3FE54869AFCB38
+configure equipment ont sw-ctrl 4 hw-version 3FE54942A* ont-variant SIP plnd-sw-version 3FE54869AFCB38 plnd-sw-ver-conf 3FE54869AFCB38 sw-dwload-ver 3FE54869AFCB38
