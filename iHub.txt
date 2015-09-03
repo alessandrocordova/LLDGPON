@@ -218,3 +218,72 @@ configure equipment ont sw-ctrl 1 hw-version 3FE54945A* ont-variant SIP plnd-sw-
 configure equipment ont sw-ctrl 2 hw-version 3FE54945A* ont-variant DO plnd-sw-version 3FE54869AFCB38 plnd-sw-ver-conf 3FE54869AFCB38 sw-dwload-ver 3FE54869AFCB38
 configure equipment ont sw-ctrl 3 hw-version 3FE54942A* ont-variant DO plnd-sw-version 3FE54869AFCB38 plnd-sw-ver-conf 3FE54869AFCB38 sw-dwload-ver 3FE54869AFCB38
 configure equipment ont sw-ctrl 4 hw-version 3FE54942A* ont-variant SIP plnd-sw-version 3FE54869AFCB38 plnd-sw-ver-conf 3FE54869AFCB38 sw-dwload-ver 3FE54869AFCB38
+
+
+
++++++++++++++++++++
+Shaper Profile GPON:
++++++++++++++++++++
+
+configure qos profiles shaper RES_3M committed-info-rate 0 committed-burst-size 0 excess-info-rate 3450 type singletokenbucketgpon
+configure qos profiles shaper RES_35M committed-info-rate 0 committed-burst-size 0 excess-info-rate 40250 type singletokenbucketgpon
+configure qos profiles shaper RES_50M committed-info-rate 0 committed-burst-size 0 excess-info-rate 57500 type singletokenbucketgpon
+configure qos profiles shaper RES_70M committed-info-rate 0 committed-burst-size 0 excess-info-rate 80500 type singletokenbucketgpon
+configure qos profiles shaper RES_90M committed-info-rate 0 committed-burst-size 0 excess-info-rate 103500 type singletokenbucketgpon
+configure qos profiles shaper RES_150M committed-info-rate 0 committed-burst-size 0 excess-info-rate 172500 type singletokenbucketgpon
+configure qos profiles shaper RES_300M committed-info-rate 0 committed-burst-size 0 excess-info-rate 345000 type singletokenbucketgpon
+configure qos profiles shaper RES_500M committed-info-rate 0 committed-burst-size 0 excess-info-rate 575000 type singletokenbucketgpon
+configure qos profiles shaper RES_EXTREME committed-info-rate 0 committed-burst-size 0 excess-info-rate 1150000 type singletokenbucketgpon
+configure qos profiles shaper CPEMNGT committed-info-rate 0 committed-burst-size 0 excess-info-rate 2300 type singletokenbucketgpon
+configure qos profiles shaper VOIP_MNGT committed-info-rate 0 committed-burst-size 0 excess-info-rate 2300 type singletokenbucketgpon
+configure qos profiles shaper EMP_10M committed-info-rate 0 committed-burst-size 0 excess-info-rate 11500 type singletokenbucketgpon
+configure qos profiles shaper EMP_30M committed-info-rate 0 committed-burst-size 0 excess-info-rate 34500 type singletokenbucketgpon
+configure qos profiles shaper EMP_40M committed-info-rate 0 committed-burst-size 0 excess-info-rate 46000 type singletokenbucketgpon
+configure qos profiles shaper EMP_50M committed-info-rate 0 committed-burst-size 0 excess-info-rate 57500 type singletokenbucketgpon
+configure qos profiles shaper EMP_90M committed-info-rate 0 committed-burst-size 0 excess-info-rate 103500 type singletokenbucketgpon
+configure qos profiles shaper EMP_150M committed-info-rate 0 committed-burst-size 0 excess-info-rate 172500 type singletokenbucketgpon
+configure qos profiles shaper EMP_300M committed-info-rate 0 committed-burst-size 0 excess-info-rate 345000 type singletokenbucketgpon
+configure qos profiles shaper EMP_500M committed-info-rate 0 committed-burst-size 0 excess-info-rate 575000 type singletokenbucketgpon
+configure qos profiles shaper EMP_1000M committed-info-rate 0 committed-burst-size 0 excess-info-rate 1150000 type singletokenbucketgpon
+
+
+
+++++++++++++++++++++++
+Bandwidth Profile GPON:
+++++++++++++++++++++++
+
+configure qos profiles bandwidth RES_300KUP committed-info-rate 0 assured-info-rate 50 excessive-info-rate 345 delay-tolerance 80
+configure qos profiles bandwidth RES_20MUP committed-info-rate 0 assured-info-rate 50 excessive-info-rate 23000 delay-tolerance 80
+configure qos profiles bandwidth RES_30MUP committed-info-rate 0 assured-info-rate 50 excessive-info-rate  34500 delay-tolerance 80
+configure qos profiles bandwidth RES_75MUP committed-info-rate 0 assured-info-rate 50 excessive-info-rate  86250 delay-tolerance 80
+configure qos profiles bandwidth RES_150MUP committed-info-rate 0 assured-info-rate 50 excessive-info-rate  172500 delay-tolerance 80
+configure qos profiles bandwidth RES_250MUP committed-info-rate 0 assured-info-rate 50 excessive-info-rate  287500 delay-tolerance 80
+configure qos profiles bandwidth RES_EXTREMEUP committed-info-rate 0 assured-info-rate 50 excessive-info-rate  575000 delay-tolerance 80
+configure qos profiles bandwidth CPEMNGTUP committed-info-rate 0 assured-info-rate 100 excessive-info-rate 2300 delay-tolerance 32
+configure qos profiles bandwidth VOIP_MNGTUP committed-info-rate 0 assured-info-rate 704 excessive-info-rate 2000 delay-tolerance 8
+configure qos profiles bandwidth EMP_10MUP committed-info-rate 0 assured-info-rate 100 excessive-info-rate 11500 delay-tolerance 80
+configure qos profiles bandwidth EMP_30MUP committed-info-rate 0 assured-info-rate 100 excessive-info-rate 34500 delay-tolerance 80
+configure qos profiles bandwidth EMP_40MUP committed-info-rate 0 assured-info-rate 100 excessive-info-rate 46000 delay-tolerance 80
+configure qos profiles bandwidth EMP_150MUP committed-info-rate 0 assured-info-rate 100 excessive-info-rate 172500 delay-tolerance 80
+configure qos profiles bandwidth EMP_300MUP committed-info-rate 0 assured-info-rate 100 excessive-info-rate 345000 delay-tolerance 80
+configure qos profiles bandwidth EMP_500MUP committed-info-rate 0 assured-info-rate 100 excessive-info-rate 575000 delay-tolerance 80
+configure qos profiles bandwidth EMP_1000MUP committed-info-rate 0 assured-info-rate 100 excessive-info-rate 1150000 delay-tolerance 80
+configure qos profiles bandwidth SMALLCELLUP committed-info-rate 0 assured-info-rate 100 excessive-info-rate 10000 delay-tolerance 32
+configure qos profiles bandwidth WIFIUP committed-info-rate 0 assured-info-rate 100 excessive-info-rate 10000 delay-tolerance 80
+
+
+
++++++++++++++
+S/C-VLAN GPON:
++++++++++++++
+
+
+configure vlan id stacked:<SVLAN>:0 mode residential-bridge name SVLAN_TO_BRAS
+configure vlan id stacked:<SVLAN>:2 mode residential-bridge name VOIP_MNGT protocol-filter pass-pppoe-ipoe pppoe-relay-tag true sin-qos-prof-name name:Default_TC5
+configure vlan id stacked:<SVLAN>:2 circuit-id-pppoe physical-id remote-id-pppoe customer-id
+configure vlan id stacked:<SVLAN>:50 mode residential-bridge name CPEMNGTUP protocol-filter pass-ipoe in-qos-prof-name name:Default_TC3
+configure vlan id stacked:<SVLAN>:50 dhcp-opt-82 circuit-id-dhcp physical-id remote-id-dhcp customer-id
+configure vlan id stacked:<SVLAN>:100 mode residential-bridge name HSI_Resid protocol-filter pass-pppoe pppoe-relay-tag true in-qos-prof-name name:Default_TC0
+configure vlan id stacked:<SVLAN>:100 circuit-id-pppoe physical-id remote-id-pppoe customer-id
+configure vlan id stacked:<SVLAN>:150 mode residential-bridge name HSI_Emp protocol-filter pass-pppoe pppoe-relay-tag true in-qos-prof-name name:Default_TC1
+configure vlan id stacked:<SVLAN>:150 circuit-id-pppoe physical-id remote-id-pppoe customer-id
