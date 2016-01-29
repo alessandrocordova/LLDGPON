@@ -1,9 +1,0 @@
-configure equipment ont interface 1/1/<slot>/<PON>/<ont-idx> sw-ver-pland auto fec-up enable sw-dnload-version auto plnd-var DO enable-aes enable voip-allowed disable sernum ALCL:FAF2A35E 
-configure equipment ont interface 1/1/<slot>/<PON>/<ont-idx> admin-state up
-configure equipment ont slot 1/1/4/1/1/1 planned-card-type 10_100base plndnumdataports 8 plndnumvoiceports 0 admin-state up
-configure interface port uni:1/1/4/1/1/1/[1...4] link-updown-trap admin-up
-configure ethernet ont 1/1/4/1/1/1/[1...4] auto-detect 10_100_1000baset-auto admin-state up
-
-
-
-
